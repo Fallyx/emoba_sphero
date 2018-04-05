@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import ch.fhnw.edu.emoba.spherolib.SpheroRobotDiscoveryListener;
 import ch.fhnw.edu.emoba.spherolib.SpheroRobotFactory;
 import ch.fhnw.edu.emoba.spherolib.SpheroRobotProxy;
@@ -69,6 +67,7 @@ public class PairingActivity extends AppCompatActivity implements SpheroRobotDis
             Intent mainIntent = new Intent(this, MainActivity.class);
 
             startActivity(mainIntent);
+            finish();
         }
         else
         {

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">emoba_sphero</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="tab_text_1">Aimn</string>
+    <string name="tab_text_1">Aim</string>
     <string name="tab_text_2">Touch</string>
     <string name="tab_text_3">Sensor</string>
     <string name="action_settings">Settings</string>
