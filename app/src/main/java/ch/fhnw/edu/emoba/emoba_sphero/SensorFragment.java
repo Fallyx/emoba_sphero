@@ -1,25 +1,18 @@
 package ch.fhnw.edu.emoba.emoba_sphero;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.app.Fragment;
 
 public class SensorFragment extends Fragment
 {
-    public SensorFragment()
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
+        View view = inflater.inflate(R.layout.fragment_sensor, container, false);
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        View view = inflater.inflate(
-                R.layout.fragment_sensor,
-                container,
-                false); //!!! this is important
         return view;
     }
 }
