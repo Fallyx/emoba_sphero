@@ -13,10 +13,6 @@ import ch.fhnw.edu.emoba.spherolib.SpheroRobotProxy;
 
 public class PairingActivity extends AppCompatActivity implements SpheroRobotDiscoveryListener
 {
-    // SPHERO vars
-    boolean onEmulator;
-    SpheroRobotProxy proxy;
-
     // App vars
     TextView btStatus;
 
@@ -34,10 +30,8 @@ public class PairingActivity extends AppCompatActivity implements SpheroRobotDis
 
         btStatus = findViewById(R.id.btStatus);
 
-        onEmulator = Build.PRODUCT.startsWith("sdk");
-        proxy = SpheroRobotFactory.createRobot(onEmulator);
-        proxy.setDiscoveryListener(this);
-        proxy.startDiscovering(getApplicationContext());
+        SpheroWrapper.setupProxy();
+        SpheroWrapper.setListener(this, getApplicationContext());
 
 
         runOnUiThread(new Runnable()
@@ -61,7 +55,7 @@ public class PairingActivity extends AppCompatActivity implements SpheroRobotDis
 
         if(spheroRobotBluetoothNotification == SpheroRobotBluetoothNotification.Online)
         {
-            proxy.stopDiscovering();
+            SpheroWrapper.stopListener();
 
             // Explicit intent
             Intent mainIntent = new Intent(this, MainActivity.class);

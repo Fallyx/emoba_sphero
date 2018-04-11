@@ -15,7 +15,8 @@ public class MainActivity extends AppCompatActivity
     private SectionsPageAdapter mSectionsPageAdapter;
     private ViewPager mViewPager;
 
-   // private SpheroRobotProxy proxy;
+    private SpheroWrapper wrapper;
+    private SpheroRobotProxy proxy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,8 +31,6 @@ public class MainActivity extends AppCompatActivity
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-       // proxy = SpheroRobotFactory.getActualRobotProxy();
     }
 
     private void setupViewPager(ViewPager viewPager)
