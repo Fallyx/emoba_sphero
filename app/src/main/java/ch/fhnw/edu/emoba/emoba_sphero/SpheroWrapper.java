@@ -27,4 +27,19 @@ public final class SpheroWrapper
     {
         proxy.stopDiscovering();
     }
+
+    public static void drive(float heading, float vel)
+    {
+        proxy.drive(heading, vel);
+    }
+
+    public static void setZeroHeading()
+    {
+        proxy.setZeroHeading();
+    }
+
+    public static void disconnect()
+    {
+        proxy.disconnect();
+    }
 }

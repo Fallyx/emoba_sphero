@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 
 import ch.fhnw.edu.emoba.spherolib.SpheroRobotFactory;
 import ch.fhnw.edu.emoba.spherolib.SpheroRobotProxy;
@@ -31,6 +33,13 @@ public class MainActivity extends AppCompatActivity
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        SpheroWrapper.disconnect();
+        super.onDestroy();
     }
 
     private void setupViewPager(ViewPager viewPager)

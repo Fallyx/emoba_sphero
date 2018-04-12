@@ -4,12 +4,17 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class AimView extends View
 {
     private Paint mPaintCircle;
-
+    private PointF point;
+    private float cx = getWidth() / 2;
+    private float cy = getWidth() / 2;
 
     public AimView(Context context)
     {
@@ -29,12 +34,37 @@ public class AimView extends View
     {
         super.onDraw(canvas);
 
-        float cx, cy;
         float radius = 100f;
 
-        cx = getWidth() / 2;
-        cy = getHeight() / 2;
-
         canvas.drawCircle(cx, cy, radius, mPaintCircle);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        float x = ev.getX();
+        float y = ev.getY();
+
+        double distanceFromCenter = Math.sqrt((cx - x) * (cx - x) + (cy - y) * (cy - y));
+        //Figure out which ring it's in.
+
+        Log.d("TouchEvent", String.valueOf(distanceFromCenter));
+
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                point = new PointF(x, y);
+                Log.d("DOWN", String.valueOf(point));
+                break;
+            case MotionEvent.ACTION_MOVE:
+                point.set(x, y);
+                Log.d("MOVE", String.valueOf(point));
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                point = null;
+                break;
+        }
+        return true;
+
+        //return super.onTouchEvent(ev);
     }
 }
