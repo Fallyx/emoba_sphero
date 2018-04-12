@@ -1,8 +1,5 @@
 package ch.fhnw.edu.emoba.emoba_sphero;
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import ch.fhnw.edu.emoba.spherolib.SpheroRobotProxy;
 
@@ -39,16 +35,9 @@ public class AimFragment extends Fragment
                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN){
                     Log.d("TOUCH", "Touch event");
                 }
-
-                float cx = v.getWidth() / 2;
-                float cy = v.getHeight() / 2;
                 float x = event.getX();
                 float y = event.getY();
 
-                double distanceFromCenter = Math.sqrt((cx - x) * (cx - x) + (cy - y) * (cy - y));
-                //Figure out which ring it's in.
-
-                Log.d("TouchEvent", String.valueOf(distanceFromCenter));
 
 
                 switch (event.getAction()) {
@@ -71,37 +60,4 @@ public class AimFragment extends Fragment
             }
         });
     }
-    /*
-    public boolean onTouchEvent(View v, MotionEvent ev) {
-        float x = ev.getX();
-        float y = ev.getY();
-
-        double distanceFromCenter = Math.sqrt((cx - x) * (cx - x) + (cy - y) * (cy - y));
-        //Figure out which ring it's in.
-
-        Log.d("TouchEvent", String.valueOf(distanceFromCenter));
-
-        /*
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                point = new PointF(x, y);
-                Log.d("DOWN", String.valueOf(point));
-                break;
-            case MotionEvent.ACTION_MOVE:
-                point.set(x, y);
-                Log.d("MOVE", String.valueOf(point));
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                point = null;
-                break;
-        }
-
-
-        return true;
-
-
-        //return super.onTouchEvent(ev);
-    }
-    */
 }
