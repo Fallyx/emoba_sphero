@@ -64,7 +64,10 @@ public class AimView extends View
                 break;
         }
         return true;
+    }
 
-        //return super.onTouchEvent(ev);
+    private void calibrate()
+    {
+
     }
 }
