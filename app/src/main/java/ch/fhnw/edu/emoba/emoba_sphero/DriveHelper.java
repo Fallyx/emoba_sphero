@@ -1,5 +1,9 @@
 package ch.fhnw.edu.emoba.emoba_sphero;
 
+import android.graphics.Point;
+
+import com.orbotix.common.utilities.math.Vector2D;
+
 public class DriveHelper
 {
     /** Calculating the angle
@@ -29,5 +33,16 @@ public class DriveHelper
         float angle = (float) Math.toDegrees(Math.acos(cosAngle));
 
         return angle;
+    }
+
+    public float calcAnglePoint(float x1, float y1, float x2, float y2)
+    {
+        Vector2D xy1 = new Vector2D(x1, y1);
+        Vector2D xy2 = new Vector2D(x2, y2);
+        double scalar = (xy1.x * xy2.x) + (xy1.y * xy2.y);
+        double magnitude =  xy1.magnitude() * xy2.magnitude();
+        double angle = Math.toDegrees(Math.acos(scalar/magnitude));
+
+        return (float)angle;
     }
 }

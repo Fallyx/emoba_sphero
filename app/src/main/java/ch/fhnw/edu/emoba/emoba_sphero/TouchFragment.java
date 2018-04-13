@@ -27,6 +27,7 @@ public class TouchFragment extends Fragment
     private float cy = 0;
     private float tx = 0;
     private float ty = 0;
+    private float angle = 0;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
@@ -90,66 +91,6 @@ public class TouchFragment extends Fragment
         });
     }
 
-    private void calculateDrive(float cx, float cy, float x, float y)
-    {
-        float x0 = 0;
-        float y0 = 0;
-        float xx = cx - x;
-        float yy = cy - y;
-
-        float x90 = 0;
-        float y90 = 250;
-        float vel = 0;
-
-        float distance = (float) Math.sqrt(((x0 - xx)*(x0 - xx)) + ((y0 - yy) * (y0 - yy)));
-        Log.d("DISTANCE", String.valueOf(distance));
-
-
-        /*
-        float headingY = cy - 250;
-        Log.d("HeadingY", String.valueOf(headingY));
-
-        float ab = cx * x + headingY * y;
-        float a = (float) Math.sqrt(cx * cx + headingY * headingY);
-        float b = (float) Math.sqrt(x * x + y * y);
-
-        float cosAngle = (ab /(a * b));
-        float angle = (float) Math.toDegrees(Math.acos(cosAngle));
-        */
-
-        float ab = x90 * xx + y90 * yy;
-        float a = (float) Math.sqrt(x90 * x90 + y90 * y90);
-        float b = (float) Math.sqrt(xx * xx + yy * yy);
-
-        float cosAngle = (ab /(a * b));
-        float angle = (float) Math.toDegrees(Math.acos(cosAngle));
-        if(xx > 0)
-        {
-            angle = 360 - angle;
-        }
-
-        if(distance > 390)
-        {
-            vel = 1;
-        }
-        else
-        {
-            vel = distance / 390;
-        }
-
-        wrapper.drive(angle, vel);
-
-
-        Log.d("XX", String.valueOf(xx));
-        Log.d("YY", String.valueOf(yy));
-
-        Log.d("AB", String.valueOf(ab));
-        Log.d("A", String.valueOf(a));
-        Log.d("B", String.valueOf(b));
-        Log.d("COSANGLE", String.valueOf(cosAngle));
-        Log.d("ANGLE", String.valueOf(angle));
-    }
-
     private void startDriveSphero()
     {
         exec.scheduleAtFixedRate(new Runnable()
@@ -159,55 +100,42 @@ public class TouchFragment extends Fragment
             {
                 float x0 = 0;
                 float y0 = 0;
-                float xx = cx - tx;
-                float yy = cy - ty;
+                float xx = tx - cx;
+                float yy = ty - cy;
                 float vel = 0;
 
                 float distance = (float) Math.sqrt(((x0 - xx)*(x0 - xx)) + ((y0 - yy) * (y0 - yy)));
-                float angle = dHelper.calcAngle(0, 250, xx, yy);
+                angle = dHelper.calcAnglePoint(0, -250, xx, yy);
 
-                /*
-                float x0 = 0;
-                float y0 = 0;
-
-
-                float x90 = 0;
-                float y90 = 250;
-                float vel = 0;
-
-
-
-                float ab = x90 * xx + y90 * yy;
-                float a = (float) Math.sqrt(x90 * x90 + y90 * y90);
-                float b = (float) Math.sqrt(xx * xx + yy * yy);
-
-                float cosAngle = (ab /(a * b));
-                float angle = (float) Math.toDegrees(Math.acos(cosAngle));
-                */
-
-
-                if(xx > 0)
-                {
-                    angle = 360 - angle;
-                }
-
-                if(distance > 390)
+                if(distance > 2000)
                 {
                     vel = 1;
                 }
                 else
                 {
-                    vel = distance / 390;
+                    vel = distance / 2000;
+                }
+
+                if( cx > tx)
+                {
+                    angle = 360 - angle;
+                }
+
+                angle = angle - 90;
+
+                if(angle < 0)
+                {
+                    angle = 360 + angle;
                 }
 
                 wrapper.drive(angle, vel);
             }
-        }, 0, 200, TimeUnit.MILLISECONDS);
+        }, 0, 500, TimeUnit.MILLISECONDS);
     }
 
     private void stopDriveSphero()
     {
-        exec.shutdown();
-        wrapper.drive(0,0);
+        exec.shutdownNow();
+        wrapper.drive(angle,0);
     }
 }

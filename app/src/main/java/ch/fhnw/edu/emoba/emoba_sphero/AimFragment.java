@@ -16,8 +16,8 @@ public class AimFragment extends Fragment
 {
     DriveHelper dHelper = new DriveHelper();
 
-    private float xStart = 0;
-    private float yStart = 0;
+    private float xLast = 0;
+    private float yLast = 0;
     private float cx = 0;
     private float cy = 0;
 
@@ -44,14 +44,16 @@ public class AimFragment extends Fragment
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        xStart = x;
-                        yStart = y;
+                        xLast = x;
+                        yLast = y;
                         break;
                     case MotionEvent.ACTION_MOVE:
+                        xLast = x;
+                        yLast = y;
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        calibrate(x, y);
+                        calibrate();
                         break;
                 }
 
@@ -60,15 +62,27 @@ public class AimFragment extends Fragment
         });
     }
 
-    private void calibrate(float xEnd, float yEnd)
+    private void calibrate()
     {
-        float xxStart = cx - xStart;
-        float yyStart = cy - yStart;
-        float xxEnd = cx - xEnd;
-        float yyEnd = cx - yEnd;
+        float x1 = 0;
+        float y1 = -250;
+        float xxLast = xLast - cx;
+        float yyLast = yLast - cy;
 
-        float angle = dHelper.calcAngle(xxStart, yyStart, xxEnd, yyEnd);
+        float angle = dHelper.calcAnglePoint(x1, y1, xxLast, yyLast);
+
+        if( cx > xLast)
+        {
+            angle = 360 - angle;
+        }
+
+        angle = angle - 90;
+
+        if(angle < 0)
+        {
+            angle = 360 + angle;
+        }
+        
         SpheroWrapper.drive(angle, 0);
-
     }
 }

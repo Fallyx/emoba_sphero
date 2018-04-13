@@ -79,6 +79,18 @@ public class PairingActivity extends AppCompatActivity implements SpheroRobotDis
             startActivity(mainIntent);
             finish();
         }
+        else if(spheroRobotBluetoothNotification == SpheroRobotBluetoothNotification.Connecting || spheroRobotBluetoothNotification == SpheroRobotBluetoothNotification.Connected)
+        {
+            runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    text = "Connecting...";
+                    updateText(text);
+                }
+            });
+        }
         else
         {
             Log.d("Bluetooth Notification", "Connection Failed...");
@@ -88,7 +100,7 @@ public class PairingActivity extends AppCompatActivity implements SpheroRobotDis
                 @Override
                 public void run()
                 {
-                    String text = "Connection failed...";
+                    text = "Connection failed...";
                     updateText(text);
                 }
             });
