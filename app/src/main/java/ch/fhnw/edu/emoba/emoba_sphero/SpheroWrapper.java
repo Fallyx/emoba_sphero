@@ -2,6 +2,10 @@ package ch.fhnw.edu.emoba.emoba_sphero;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 
 import ch.fhnw.edu.emoba.spherolib.SpheroRobotDiscoveryListener;
 import ch.fhnw.edu.emoba.spherolib.SpheroRobotFactory;
@@ -10,10 +14,10 @@ import ch.fhnw.edu.emoba.spherolib.SpheroRobotProxy;
 public final class SpheroWrapper
 {
     private static SpheroRobotProxy proxy;
+    public static boolean onEmulator =  Build.PRODUCT.startsWith("sdk");
 
     public static void setupProxy()
     {
-        boolean onEmulator = Build.PRODUCT.startsWith("sdk");
         proxy = SpheroRobotFactory.createRobot(onEmulator);
     }
 
@@ -21,6 +25,12 @@ public final class SpheroWrapper
     {
         proxy.setDiscoveryListener(listener);
         proxy.startDiscovering(context);
+    }
+
+    public static void setLED()
+    {
+        proxy.setLed(1f, 0f, 0f);
+        proxy.setBackLedBrightness(0.7f);
     }
 
     public static void stopListener()
@@ -42,4 +52,4 @@ public final class SpheroWrapper
     {
         proxy.disconnect();
     }
-}
+    }

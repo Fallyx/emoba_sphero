@@ -1,6 +1,9 @@
 package ch.fhnw.edu.emoba.emoba_sphero;
 
+import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +18,7 @@ public class PairingActivity extends AppCompatActivity implements SpheroRobotDis
 {
     // App vars
     TextView btStatus;
+    private String text = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,19 +31,30 @@ public class PairingActivity extends AppCompatActivity implements SpheroRobotDis
     protected void onResume()
     {
         super.onResume();
+        text = "Started discovering SPHERO device...";
 
         btStatus = findViewById(R.id.btStatus);
 
-        SpheroWrapper.setupProxy();
-        SpheroWrapper.setListener(this, getApplicationContext());
-
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if ((checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) && !SpheroWrapper.onEmulator)
+        {
+            text =  "Location permission was not granted for this app.";
+        }
+        else if ((bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) && !SpheroWrapper.onEmulator)
+        {
+            text = "Bluetooth isn't enabled.";
+        }
+        else
+        {
+            SpheroWrapper.setupProxy();
+            SpheroWrapper.setListener(this, getApplicationContext());
+        }
 
         runOnUiThread(new Runnable()
         {
             @Override
             public void run()
             {
-                String text = "Started discovering SPHERO device...";
                 updateText(text);
             }
         });
@@ -56,12 +71,25 @@ public class PairingActivity extends AppCompatActivity implements SpheroRobotDis
         if(spheroRobotBluetoothNotification == SpheroRobotBluetoothNotification.Online)
         {
             SpheroWrapper.stopListener();
+            SpheroWrapper.setLED();
 
             // Explicit intent
             Intent mainIntent = new Intent(this, MainActivity.class);
 
             startActivity(mainIntent);
             finish();
+        }
+        else if(spheroRobotBluetoothNotification == SpheroRobotBluetoothNotification.Connecting || spheroRobotBluetoothNotification == SpheroRobotBluetoothNotification.Connected)
+        {
+            runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    text = "Connecting...";
+                    updateText(text);
+                }
+            });
         }
         else
         {
@@ -72,7 +100,7 @@ public class PairingActivity extends AppCompatActivity implements SpheroRobotDis
                 @Override
                 public void run()
                 {
-                    String text = "Connection failed...";
+                    text = "Connection failed...";
                     updateText(text);
                 }
             });

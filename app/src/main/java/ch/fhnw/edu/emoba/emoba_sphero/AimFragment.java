@@ -14,11 +14,12 @@ import ch.fhnw.edu.emoba.spherolib.SpheroRobotProxy;
 
 public class AimFragment extends Fragment
 {
-    SpheroWrapper wrapper;
-    SpheroRobotProxy proxy;
+    DriveHelper dHelper = new DriveHelper();
 
-    PointF startPoint = new PointF(0, 0);
-    PointF lastPoint = new PointF(0,0);
+    private float xLast = 0;
+    private float yLast = 0;
+    private float cx = 0;
+    private float cy = 0;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
@@ -35,29 +36,53 @@ public class AimFragment extends Fragment
                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN){
                     Log.d("TOUCH", "Touch event");
                 }
+
+                cx = v.getWidth() / 2;
+                cy = v.getHeight() / 2;
                 float x = event.getX();
                 float y = event.getY();
 
-
-
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        startPoint.set(x,y);
-                        Log.d("DOWN", String.valueOf(startPoint));
+                        xLast = x;
+                        yLast = y;
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        lastPoint.set(x,y);
-                        Log.d("MOVE", "moveing");
+                        xLast = x;
+                        yLast = y;
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        Log.d("UP start", String.valueOf(startPoint));
-                        Log.d("UP last", String.valueOf(lastPoint));
+                        calibrate();
                         break;
                 }
 
                 return true;
             }
         });
+    }
+
+    private void calibrate()
+    {
+        float x1 = 0;
+        float y1 = -250;
+        float xxLast = xLast - cx;
+        float yyLast = yLast - cy;
+
+        float angle = dHelper.calcAnglePoint(x1, y1, xxLast, yyLast);
+
+        if( cx > xLast)
+        {
+            angle = 360 - angle;
+        }
+
+        angle = angle - 90;
+
+        if(angle < 0)
+        {
+            angle = 360 + angle;
+        }
+        
+        SpheroWrapper.drive(angle, 0);
     }
 }
