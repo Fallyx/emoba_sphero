@@ -1,7 +1,5 @@
 package ch.fhnw.edu.emoba.emoba_sphero;
 
-import android.graphics.Point;
-
 import com.orbotix.common.utilities.math.Vector2D;
 
 public class DriveHelper

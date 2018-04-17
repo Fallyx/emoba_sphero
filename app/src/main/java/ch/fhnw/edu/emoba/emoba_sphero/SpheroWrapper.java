@@ -2,10 +2,6 @@ package ch.fhnw.edu.emoba.emoba_sphero;
 
 import android.content.Context;
 import android.os.Build;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
-import android.os.Message;
 
 import ch.fhnw.edu.emoba.spherolib.SpheroRobotDiscoveryListener;
 import ch.fhnw.edu.emoba.spherolib.SpheroRobotFactory;
@@ -29,7 +25,7 @@ public final class SpheroWrapper
 
     public static void setLED()
     {
-        proxy.setLed(1f, 0f, 0f);
+        proxy.setLed(0f, 1f, 1f);
         proxy.setBackLedBrightness(0.7f);
     }
 

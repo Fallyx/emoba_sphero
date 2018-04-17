@@ -4,15 +4,11 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import ch.fhnw.edu.emoba.spherolib.SpheroRobotDiscoveryListener;
-import ch.fhnw.edu.emoba.spherolib.SpheroRobotFactory;
-import ch.fhnw.edu.emoba.spherolib.SpheroRobotProxy;
 
 public class PairingActivity extends AppCompatActivity implements SpheroRobotDiscoveryListener
 {
@@ -63,17 +59,11 @@ public class PairingActivity extends AppCompatActivity implements SpheroRobotDis
     @Override
     public void handleRobotChangedState(SpheroRobotBluetoothNotification spheroRobotBluetoothNotification)
     {
-        // handle notifications
-        // on "Online" switch to MainActivity
-
-        Log.d("Bluetooth Notification", spheroRobotBluetoothNotification.toString());
-
         if(spheroRobotBluetoothNotification == SpheroRobotBluetoothNotification.Online)
         {
             SpheroWrapper.stopListener();
             SpheroWrapper.setLED();
 
-            // Explicit intent
             Intent mainIntent = new Intent(this, MainActivity.class);
 
             startActivity(mainIntent);
@@ -93,8 +83,6 @@ public class PairingActivity extends AppCompatActivity implements SpheroRobotDis
         }
         else
         {
-            Log.d("Bluetooth Notification", "Connection Failed...");
-
             runOnUiThread(new Runnable()
             {
                 @Override

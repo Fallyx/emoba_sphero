@@ -6,19 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-
-import ch.fhnw.edu.emoba.spherolib.SpheroRobotFactory;
-import ch.fhnw.edu.emoba.spherolib.SpheroRobotProxy;
 
 public class MainActivity extends AppCompatActivity
 {
     private SectionsPageAdapter mSectionsPageAdapter;
     private ViewPager mViewPager;
-
-    private SpheroWrapper wrapper;
-    private SpheroRobotProxy proxy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

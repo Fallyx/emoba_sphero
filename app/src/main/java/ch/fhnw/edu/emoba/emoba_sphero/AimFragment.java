@@ -1,16 +1,12 @@
 package ch.fhnw.edu.emoba.emoba_sphero;
 
-import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
-import ch.fhnw.edu.emoba.spherolib.SpheroRobotProxy;
 
 public class AimFragment extends Fragment
 {
@@ -26,6 +22,13 @@ public class AimFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_aim, container, false);
         touchListener(view);
 
+        view.findViewById(R.id.btnCalibrate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCalibrate();
+            }
+        });
+
         return view;
     }
 
@@ -33,10 +36,6 @@ public class AimFragment extends Fragment
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getActionMasked() == MotionEvent.ACTION_DOWN){
-                    Log.d("TOUCH", "Touch event");
-                }
-
                 cx = v.getWidth() / 2;
                 cy = v.getHeight() / 2;
                 float x = event.getX();
@@ -82,7 +81,12 @@ public class AimFragment extends Fragment
         {
             angle = 360 + angle;
         }
-        
+
         SpheroWrapper.drive(angle, 0);
+    }
+
+    private void onCalibrate()
+    {
+        SpheroWrapper.setZeroHeading();
     }
 }
