@@ -13,8 +13,24 @@
         android:layout_marginStart="163dp"
         android:layout_marginTop="90dp"
         android:text="Sensor"
+        android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/sensorToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="232dp"
+        android:layout_marginEnd="99dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="122dp"
+        android:elevation="0dp"
+        android:text="Toggle sensor on off"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSensor" />
 
 </android.support.constraint.ConstraintLayout>
